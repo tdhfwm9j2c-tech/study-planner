@@ -1,0 +1,9 @@
+{
+  "name": "수능 만점 플래너",
+  "short_name": "만점플래너",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f7",
+  "theme_color": "#111111",
+  "lang": "ko-KR"
+}
