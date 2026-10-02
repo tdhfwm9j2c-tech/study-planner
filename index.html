@@ -1,0 +1,3632 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#111111"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="만점플래너"
+  >
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <title>수능 만점 플래너</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      padding:
+        max(16px, env(safe-area-inset-top))
+        16px
+        max(16px, env(safe-area-inset-bottom));
+
+      background: #f3f5f7;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: #181818;
+
+    }
+
+
+    .container {
+
+      max-width: 900px;
+
+      margin: auto;
+
+    }
+
+
+    .card {
+
+      background: white;
+
+      padding: 20px;
+
+      border-radius: 18px;
+
+      margin-bottom: 15px;
+
+      box-shadow:
+        0 4px 16px
+        rgba(0,0,0,0.05);
+
+    }
+
+
+    .top {
+
+      text-align: center;
+
+    }
+
+
+    #todayDate {
+
+      color: #666;
+
+      margin-bottom: 8px;
+
+    }
+
+
+    #dailyQuote {
+
+      font-size: 20px;
+
+      font-weight: 750;
+
+      line-height: 1.5;
+
+    }
+
+
+    h1,
+    h2,
+    h3 {
+
+      margin-top: 0;
+
+    }
+
+
+    .sub {
+
+      color: #777;
+
+      font-size: 14px;
+
+    }
+
+
+    button {
+
+      border: none;
+
+      border-radius: 11px;
+
+      padding: 11px 15px;
+
+      background: #151515;
+
+      color: white;
+
+      font-size: 15px;
+
+      cursor: pointer;
+
+    }
+
+
+    button:active {
+
+      transform: scale(0.97);
+
+    }
+
+
+    .secondary {
+
+      background: #eceff2;
+
+      color: #222;
+
+    }
+
+
+    .danger {
+
+      background: #ffecec;
+
+      color: #c33;
+
+    }
+
+
+    input,
+    select {
+
+      width: 100%;
+
+      padding: 13px;
+
+      margin: 6px 0;
+
+      border:
+        1px solid #ddd;
+
+      border-radius: 11px;
+
+      font-size: 16px;
+
+      background: white;
+
+    }
+
+
+    /* ===================
+       메인 시험
+    =================== */
+
+
+    .main-dday {
+
+      text-align: center;
+
+    }
+
+
+    #mainExamName {
+
+      font-size: 21px;
+
+      font-weight: 700;
+
+    }
+
+
+    #mainDday {
+
+      font-size: 54px;
+
+      font-weight: 850;
+
+      margin: 10px 0;
+
+    }
+
+
+    /* ===================
+       목표
+    =================== */
+
+
+    .goalGrid {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 12px;
+
+    }
+
+
+    .goalBox {
+
+      background: #f6f7f9;
+
+      padding: 16px;
+
+      border-radius: 15px;
+
+    }
+
+
+    .goalTitle {
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .goalInputRow {
+
+      display: flex;
+
+      gap: 7px;
+
+    }
+
+
+    .goalInputRow input {
+
+      flex: 1;
+
+      margin: 0;
+
+    }
+
+
+    .goalItem {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      padding: 10px 0;
+
+      border-bottom:
+        1px solid #e5e5e5;
+
+    }
+
+
+    .goalItem:last-child {
+
+      border-bottom: none;
+
+    }
+
+
+    .goalItem input[type="checkbox"] {
+
+      width: auto;
+
+      transform:
+        scale(1.25);
+
+    }
+
+
+    .goalText {
+
+      flex: 1;
+
+      line-height: 1.4;
+
+    }
+
+
+    .done {
+
+      text-decoration:
+        line-through;
+
+      color: #999;
+
+    }
+
+
+    .deleteSmall {
+
+      background: none;
+
+      color: #999;
+
+      padding: 5px;
+
+      font-size: 18px;
+
+    }
+
+
+    /* ===================
+       타이머
+    =================== */
+
+
+    .timerCard {
+
+      text-align: center;
+
+    }
+
+
+    #timerDisplay {
+
+      font-size: 50px;
+
+      font-weight: 850;
+
+      margin: 20px 0;
+
+      font-variant-numeric:
+        tabular-nums;
+
+    }
+
+
+    .timerButtons {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+    /* ===================
+       통계
+    =================== */
+
+
+    .statsGrid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 10px;
+
+    }
+
+
+    .statBox {
+
+      background: #f6f7f9;
+
+      padding: 16px;
+
+      border-radius: 14px;
+
+      text-align: center;
+
+    }
+
+
+    .statLabel {
+
+      font-size: 13px;
+
+      color: #777;
+
+    }
+
+
+    .statValue {
+
+      font-size: 21px;
+
+      font-weight: 800;
+
+      margin-top: 7px;
+
+    }
+
+
+    .message {
+
+      margin-top: 12px;
+
+      background: #f6f7f9;
+
+      padding: 16px;
+
+      border-radius: 14px;
+
+      line-height: 1.6;
+
+    }
+
+
+    .subjectStat {
+
+      padding: 12px 0;
+
+      border-bottom:
+        1px solid #eee;
+
+    }
+
+
+    .subjectStatName {
+
+      font-weight: 800;
+
+    }
+
+
+    .subjectStatInfo {
+
+      color: #555;
+
+      font-size: 14px;
+
+      margin-top: 4px;
+
+    }
+
+
+    /* ===================
+       시험
+    =================== */
+
+
+    .exam {
+
+      padding: 14px 0;
+
+      border-bottom:
+        1px solid #eee;
+
+    }
+
+
+    .examTitle {
+
+      font-size: 18px;
+
+      font-weight: 800;
+
+    }
+
+
+    .examDday {
+
+      font-weight: 700;
+
+      margin: 5px 0;
+
+    }
+
+
+    .buttonRow {
+
+      display: flex;
+
+      gap: 7px;
+
+      margin-top: 10px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+    /* ===================
+       작은 화면
+    =================== */
+
+
+    @media(
+      max-width:650px
+    ) {
+
+      .goalGrid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .statsGrid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      #mainDday {
+
+        font-size: 44px;
+
+      }
+
+
+      #timerDisplay {
+
+        font-size: 42px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+  <!-- ===================
+       날짜 / 명언
+  =================== -->
+
+
+  <div class="card top">
+
+    <div id="todayDate"></div>
+
+    <div id="dailyQuote"></div>
+
+  </div>
+
+
+
+  <!-- ===================
+       메인 시험
+  =================== -->
+
+
+  <div class="card main-dday">
+
+    <div id="mainExamName">
+
+      메인 시험
+
+    </div>
+
+
+    <div id="mainDday">
+
+      날짜 설정 필요
+
+    </div>
+
+
+    <div
+      id="mainDate"
+      class="sub"
+    ></div>
+
+  </div>
+
+
+
+  <!-- ===================
+       목표 시스템
+  =================== -->
+
+
+  <div class="card">
+
+
+    <h2>
+      🧭 나의 공부 계획
+    </h2>
+
+
+    <div class="sub">
+
+      장기 목표를 오늘 해야 할 행동까지 쪼개서 관리해.
+
+    </div>
+
+
+    <br>
+
+
+    <div class="goalGrid">
+
+
+
+      <!-- 1년 -->
+
+
+      <div class="goalBox">
+
+
+        <div class="goalTitle">
+
+          🎯 1년 목표
+
+        </div>
+
+
+        <div class="goalInputRow">
+
+
+          <input
+            id="yearGoalInput"
+            placeholder="예: 수능 전 과목 1등급"
+          >
+
+
+          <button
+            onclick="addGoal('year')"
+          >
+
+            +
+
+          </button>
+
+
+        </div>
+
+
+        <div id="yearGoals"></div>
+
+
+      </div>
+
+
+
+      <!-- 한 달 -->
+
+
+      <div class="goalBox">
+
+
+        <div class="goalTitle">
+
+          🗓 이번 달
+
+        </div>
+
+
+        <div class="goalInputRow">
+
+
+          <input
+            id="monthGoalInput"
+            placeholder="예: 미적분 기출 1회독"
+          >
+
+
+          <button
+            onclick="addGoal('month')"
+          >
+
+            +
+
+          </button>
+
+
+        </div>
+
+
+        <div id="monthGoals"></div>
+
+
+      </div>
+
+
+
+      <!-- 한 주 -->
+
+
+      <div class="goalBox">
+
+
+        <div class="goalTitle">
+
+          📅 이번 주
+
+        </div>
+
+
+        <div class="goalInputRow">
+
+
+          <input
+            id="weekGoalInput"
+            placeholder="예: 수학 기출 100문제"
+          >
+
+
+          <button
+            onclick="addGoal('week')"
+          >
+
+            +
+
+          </button>
+
+
+        </div>
+
+
+        <div id="weekGoals"></div>
+
+
+      </div>
+
+
+
+      <!-- 오늘 -->
+
+
+      <div class="goalBox">
+
+
+        <div class="goalTitle">
+
+          ☀️ 오늘
+
+        </div>
+
+
+        <div class="goalInputRow">
+
+
+          <input
+            id="todayGoalInput"
+            placeholder="예: 미적분 30문제"
+          >
+
+
+          <button
+            onclick="addGoal('today')"
+          >
+
+            +
+
+          </button>
+
+
+        </div>
+
+
+        <div id="todayGoals"></div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- ===================
+       타이머
+  =================== -->
+
+
+  <div class="card timerCard">
+
+
+    <h2>
+
+      ⏱ 공부 타이머
+
+    </h2>
+
+
+    <select id="timerSubject"></select>
+
+
+    <div id="timerDisplay">
+
+      00:00:00
+
+    </div>
+
+
+    <div
+      id="timerSubjectText"
+      class="sub"
+    >
+
+      공부할 과목을 선택해줘.
+
+    </div>
+
+
+    <br>
+
+
+    <div class="timerButtons">
+
+
+      <button
+        onclick="startTimer()"
+      >
+
+        ▶ 시작
+
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="pauseTimer()"
+      >
+
+        ⏸ 일시정지
+
+      </button>
+
+
+      <button
+        onclick="finishTimer()"
+      >
+
+        ✓ 종료·저장
+
+      </button>
+
+
+      <button
+        class="danger"
+        onclick="resetTimer()"
+      >
+
+        초기화
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- ===================
+       과목 관리
+  =================== -->
+
+
+  <div class="card">
+
+
+    <h2>
+
+      📚 과목 관리
+
+    </h2>
+
+
+    <input
+      id="newSubject"
+      placeholder="예: 미적분, 물리Ⅱ"
+    >
+
+
+    <button
+      onclick="addSubject()"
+    >
+
+      + 과목 추가
+
+    </button>
+
+
+    <div id="subjectList"></div>
+
+
+  </div>
+
+
+
+  <!-- ===================
+       공부 통계
+  =================== -->
+
+
+  <div class="card">
+
+
+    <h2>
+
+      📊 공부 기록
+
+    </h2>
+
+
+    <div class="statsGrid">
+
+
+      <div class="statBox">
+
+
+        <div class="statLabel">
+
+          오늘
+
+        </div>
+
+
+        <div
+          id="todayTotal"
+          class="statValue"
+        >
+
+          0분
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="statBox">
+
+
+        <div class="statLabel">
+
+          이번 주
+
+        </div>
+
+
+        <div
+          id="weekTotal"
+          class="statValue"
+        >
+
+          0분
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="statBox">
+
+
+        <div class="statLabel">
+
+          지난주
+
+        </div>
+
+
+        <div
+          id="lastWeekTotal"
+          class="statValue"
+        >
+
+          0분
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+    <div
+      id="weeklyMessage"
+      class="message"
+    ></div>
+
+
+    <h3>
+
+      과목별 기록
+
+    </h3>
+
+
+    <div id="subjectStats"></div>
+
+
+  </div>
+
+
+
+  <!-- ===================
+       메인 시험 설정
+  =================== -->
+
+
+  <div class="card">
+
+
+    <h2>
+
+      🎯 메인 시험 설정
+
+    </h2>
+
+
+    <input
+      id="mainNameInput"
+      placeholder="예: 2028학년도 수능"
+    >
+
+
+    <input
+      id="mainDateInput"
+      type="date"
+    >
+
+
+    <input
+      id="mainScopeInput"
+      placeholder="예: 국어, 수학, 영어, 탐구"
+    >
+
+
+    <button
+      onclick="saveMainExam()"
+    >
+
+      저장
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- ===================
+       시험 추가
+  =================== -->
+
+
+  <div class="card">
+
+
+    <h2>
+
+      📝 시험 추가
+
+    </h2>
+
+
+    <input
+      id="examName"
+      placeholder="예: 2학기 기말고사"
+    >
+
+
+    <input
+      id="examDate"
+      type="date"
+    >
+
+
+    <input
+      id="examScope"
+      placeholder="시험 범위"
+    >
+
+
+    <button
+      onclick="addExam()"
+    >
+
+      + 시험 추가
+
+    </button>
+
+
+    <div id="examList"></div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* ===========================
+   Service Worker
+   오프라인 앱 기능
+=========================== */
+
+
+if (
+  "serviceWorker"
+  in navigator
+) {
+
+  window.addEventListener(
+    "load",
+    function() {
+
+      navigator
+        .serviceWorker
+        .register(
+          "./sw.js"
+        )
+        .catch(
+          function(error) {
+
+            console.log(
+              "Service Worker 등록 실패",
+              error
+            );
+
+          }
+        );
+
+    }
+  );
+
+}
+
+
+
+/* ===========================
+   데이터
+=========================== */
+
+
+const STORAGE_KEY =
+  "perfectScorePlannerV04";
+
+
+let data = {
+
+
+  mainExam: null,
+
+
+  exams: [],
+
+
+  subjects: [
+
+    "국어",
+
+    "수학",
+
+    "영어",
+
+    "탐구"
+
+  ],
+
+
+  sessions: [],
+
+
+  goals: {
+
+    year: [],
+
+    month: [],
+
+    week: [],
+
+    today: []
+
+  },
+
+
+  timer: {
+
+    subject: "",
+
+    running: false,
+
+    startedAt: null,
+
+    elapsedSeconds: 0
+
+  }
+
+
+};
+
+
+
+/* ===========================
+   저장 / 불러오기
+=========================== */
+
+
+function saveData() {
+
+
+  localStorage.setItem(
+
+    STORAGE_KEY,
+
+    JSON.stringify(
+      data
+    )
+
+  );
+
+
+}
+
+
+
+function loadData() {
+
+
+  const saved =
+
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (saved) {
+
+
+    const loaded =
+
+      JSON.parse(
+        saved
+      );
+
+
+    data = {
+
+
+      ...data,
+
+
+      ...loaded,
+
+
+      goals: {
+
+        ...data.goals,
+
+        ...(loaded.goals || {})
+
+      },
+
+
+      timer: {
+
+        ...data.timer,
+
+        ...(loaded.timer || {})
+
+      }
+
+
+    };
+
+
+  }
+
+
+  render();
+
+
+}
+
+
+
+/* ===========================
+   오늘 날짜
+=========================== */
+
+
+function showToday() {
+
+
+  document
+    .getElementById(
+      "todayDate"
+    )
+    .innerText =
+
+
+      new Date()
+        .toLocaleDateString(
+
+          "ko-KR",
+
+          {
+
+            year: "numeric",
+
+            month: "long",
+
+            day: "numeric",
+
+            weekday: "long"
+
+          }
+
+        );
+
+
+}
+
+
+
+/* ===========================
+   오늘의 명언
+=========================== */
+
+
+const quotes = [
+
+
+  "오늘의 한 시간이 미래의 실력을 만든다.",
+
+
+  "완벽한 하루보다 꾸준한 하루가 강하다.",
+
+
+  "시험은 하루지만 실력은 매일 만들어진다.",
+
+
+  "지금 시작하면 이미 절반은 이긴 것이다.",
+
+
+  "하기 싫은 날의 공부가 가장 큰 차이를 만든다.",
+
+
+  "오늘 해야 할 일을 오늘 끝내는 사람이 강해진다.",
+
+
+  "한 문제를 깊게 이해하는 것이 실력이다.",
+
+
+  "집중은 기다리는 것이 아니라 시작하며 만들어진다.",
+
+
+  "작은 반복이 결국 큰 차이를 만든다.",
+
+
+  "어제보다 조금 더 정확하게 공부하자.",
+
+
+  "목표는 멀리 있어도 행동은 지금 할 수 있다.",
+
+
+  "남과 비교하지 말고 어제의 기록을 넘어라.",
+
+
+  "꾸준함은 재능을 이기는 가장 현실적인 방법이다.",
+
+
+  "오늘의 선택이 미래의 평범함과 비범함을 가른다.",
+
+
+  "끝까지 가는 사람은 결국 달라진다.",
+
+
+  "실력은 특별한 하루가 아니라 평범한 하루의 반복에서 만들어진다.",
+
+
+  "공부하기 좋은 날을 기다리지 말고 오늘을 공부하기 좋은 날로 만들자.",
+
+
+  "포기하고 싶은 순간을 한 번 넘길 때마다 실력이 쌓인다.",
+
+
+  "결과를 걱정하는 시간보다 문제 한 개를 더 푸는 시간이 가치 있다.",
+
+
+  "오늘의 집중은 내일의 자신감을 만든다."
+
+
+];
+
+
+
+function showDailyQuote() {
+
+
+  const today =
+    new Date();
+
+
+  const index =
+
+    Math.floor(
+
+      new Date(
+
+        today.getFullYear(),
+
+        today.getMonth(),
+
+        today.getDate()
+
+      ).getTime()
+
+      /
+
+      86400000
+
+    )
+
+    %
+
+    quotes.length;
+
+
+  document
+    .getElementById(
+      "dailyQuote"
+    )
+    .innerText =
+
+      "“"
+
+      +
+
+      quotes[index]
+
+      +
+
+      "”";
+
+
+}
+
+
+
+/* ===========================
+   목표
+=========================== */
+
+
+function addGoal(
+  type
+) {
+
+
+  const input =
+
+    document.getElementById(
+
+      type
+      +
+      "GoalInput"
+
+    );
+
+
+  const text =
+
+    input.value.trim();
+
+
+  if (!text) {
+
+    return;
+
+  }
+
+
+  data.goals[type]
+    .push(
+
+
+      {
+
+        id:
+          Date.now(),
+
+        text:
+          text,
+
+        done:
+          false
+
+      }
+
+
+    );
+
+
+  input.value = "";
+
+
+  saveData();
+
+
+  renderGoals();
+
+
+}
+
+
+
+function toggleGoal(
+  type,
+  id
+) {
+
+
+  const goal =
+
+    data.goals[type]
+      .find(
+
+        g =>
+          g.id === id
+
+      );
+
+
+  if (!goal) {
+
+    return;
+
+  }
+
+
+  goal.done =
+    !goal.done;
+
+
+  saveData();
+
+
+  renderGoals();
+
+
+}
+
+
+
+function deleteGoal(
+  type,
+  id
+) {
+
+
+  data.goals[type] =
+
+    data.goals[type]
+      .filter(
+
+        goal =>
+          goal.id !== id
+
+      );
+
+
+  saveData();
+
+
+  renderGoals();
+
+
+}
+
+
+
+function renderGoals() {
+
+
+  const types = [
+
+    "year",
+
+    "month",
+
+    "week",
+
+    "today"
+
+  ];
+
+
+  types.forEach(
+
+    type => {
+
+
+      const box =
+
+        document.getElementById(
+
+          type
+          +
+          "Goals"
+
+        );
+
+
+      box.innerHTML = "";
+
+
+      data.goals[type]
+        .forEach(
+
+          goal => {
+
+
+            const row =
+
+              document.createElement(
+                "div"
+              );
+
+
+            row.className =
+              "goalItem";
+
+
+            row.innerHTML = `
+
+
+              <input
+
+                type="checkbox"
+
+                ${goal.done ? "checked" : ""}
+
+                onchange="
+                  toggleGoal(
+                    '${type}',
+                    ${goal.id}
+                  )
+                "
+
+              >
+
+
+              <div
+
+                class="
+                  goalText
+                  ${goal.done ? "done" : ""}
+                "
+
+              >
+
+                ${escapeHtml(goal.text)}
+
+              </div>
+
+
+              <button
+
+                class="deleteSmall"
+
+                onclick="
+                  deleteGoal(
+                    '${type}',
+                    ${goal.id}
+                  )
+                "
+
+              >
+
+                ×
+
+              </button>
+
+
+            `;
+
+
+            box.appendChild(
+              row
+            );
+
+
+          }
+
+        );
+
+
+    }
+
+  );
+
+
+}
+
+
+
+/* ===========================
+   과목
+=========================== */
+
+
+function addSubject() {
+
+
+  const input =
+
+    document.getElementById(
+      "newSubject"
+    );
+
+
+  const name =
+
+    input.value.trim();
+
+
+  if (!name) {
+
+    return;
+
+  }
+
+
+  if (
+
+    data.subjects.includes(
+      name
+    )
+
+  ) {
+
+
+    alert(
+      "이미 있는 과목이야."
+    );
+
+
+    return;
+
+
+  }
+
+
+  data.subjects.push(
+    name
+  );
+
+
+  input.value = "";
+
+
+  saveData();
+
+
+  renderSubjects();
+
+
+}
+
+
+
+function renderSubjects() {
+
+
+  const select =
+
+    document.getElementById(
+      "timerSubject"
+    );
+
+
+  select.innerHTML =
+
+    '<option value="">과목 선택</option>';
+
+
+  data.subjects
+    .forEach(
+
+      subject => {
+
+
+        const option =
+
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          subject;
+
+
+        option.innerText =
+          subject;
+
+
+        select.appendChild(
+          option
+        );
+
+
+      }
+
+    );
+
+
+  if (
+    data.timer.subject
+  ) {
+
+
+    select.value =
+      data.timer.subject;
+
+
+  }
+
+
+  const list =
+
+    document.getElementById(
+      "subjectList"
+    );
+
+
+  list.innerHTML =
+
+    data.subjects
+      .map(
+
+        subject =>
+
+          `
+
+          <span style="
+
+            display:inline-block;
+
+            margin:5px;
+
+            padding:8px 10px;
+
+            background:#f0f2f4;
+
+            border-radius:9px;
+
+          ">
+
+            ${escapeHtml(subject)}
+
+          </span>
+
+          `
+
+      )
+
+      .join("");
+
+
+}
+
+
+
+/* ===========================
+   타이머
+=========================== */
+
+
+function getTimerSeconds() {
+
+
+  let seconds =
+
+    data.timer.elapsedSeconds
+
+    ||
+
+    0;
+
+
+  if (
+
+    data.timer.running
+
+    &&
+
+    data.timer.startedAt
+
+  ) {
+
+
+    seconds +=
+
+      Math.floor(
+
+        (
+
+          Date.now()
+
+          -
+
+          data.timer.startedAt
+
+        )
+
+        /
+
+        1000
+
+      );
+
+
+  }
+
+
+  return seconds;
+
+
+}
+
+
+
+function startTimer() {
+
+
+  if (
+    data.timer.running
+  ) {
+
+    return;
+
+  }
+
+
+  const subject =
+
+    document.getElementById(
+      "timerSubject"
+    ).value;
+
+
+  if (!subject) {
+
+
+    alert(
+      "과목을 선택해줘."
+    );
+
+
+    return;
+
+
+  }
+
+
+  if (
+
+    getTimerSeconds()
+    ===
+    0
+
+  ) {
+
+
+    data.timer.subject =
+      subject;
+
+
+  }
+
+
+  data.timer.running =
+    true;
+
+
+  data.timer.startedAt =
+    Date.now();
+
+
+  saveData();
+
+
+  renderTimer();
+
+
+}
+
+
+
+function pauseTimer() {
+
+
+  if (
+    !data.timer.running
+  ) {
+
+    return;
+
+  }
+
+
+  data.timer.elapsedSeconds =
+
+    getTimerSeconds();
+
+
+  data.timer.running =
+    false;
+
+
+  data.timer.startedAt =
+    null;
+
+
+  saveData();
+
+
+  renderTimer();
+
+
+}
+
+
+
+function finishTimer() {
+
+
+  const seconds =
+
+    getTimerSeconds();
+
+
+  if (
+    seconds <= 0
+  ) {
+
+
+    alert(
+      "저장할 시간이 없어."
+    );
+
+
+    return;
+
+
+  }
+
+
+  data.sessions.push(
+
+
+    {
+
+      id:
+        Date.now(),
+
+      subject:
+        data.timer.subject,
+
+      seconds:
+        seconds,
+
+      endedAt:
+        new Date().toISOString()
+
+    }
+
+
+  );
+
+
+  data.timer = {
+
+
+    subject: "",
+
+    running: false,
+
+    startedAt: null,
+
+    elapsedSeconds: 0
+
+
+  };
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+function resetTimer() {
+
+
+  if (
+
+    getTimerSeconds() > 0
+
+    &&
+
+    !confirm(
+      "현재 타이머를 초기화할까?"
+    )
+
+  ) {
+
+    return;
+
+  }
+
+
+  data.timer = {
+
+
+    subject: "",
+
+    running: false,
+
+    startedAt: null,
+
+    elapsedSeconds: 0
+
+
+  };
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+function formatTimer(
+  seconds
+) {
+
+
+  seconds =
+
+    Math.floor(
+      seconds
+    );
+
+
+  const h =
+
+    Math.floor(
+      seconds / 3600
+    );
+
+
+  const m =
+
+    Math.floor(
+
+      (
+
+        seconds % 3600
+
+      )
+
+      /
+
+      60
+
+    );
+
+
+  const s =
+
+    seconds % 60;
+
+
+  return (
+
+    String(h)
+      .padStart(
+        2,
+        "0"
+      )
+
+    +
+
+    ":"
+
+    +
+
+    String(m)
+      .padStart(
+        2,
+        "0"
+      )
+
+    +
+
+    ":"
+
+    +
+
+    String(s)
+      .padStart(
+        2,
+        "0"
+      )
+
+  );
+
+
+}
+
+
+
+function renderTimer() {
+
+
+  const seconds =
+
+    getTimerSeconds();
+
+
+  document
+    .getElementById(
+      "timerDisplay"
+    )
+    .innerText =
+
+      formatTimer(
+        seconds
+      );
+
+
+  document
+    .getElementById(
+      "timerSubjectText"
+    )
+    .innerText =
+
+
+      data.timer.subject
+
+      ?
+
+      data.timer.subject
+
+      +
+
+      (
+
+        data.timer.running
+
+        ?
+
+        " 공부 중"
+
+        :
+
+        " 일시정지"
+
+      )
+
+      :
+
+      "공부할 과목을 선택해줘.";
+
+
+}
+
+
+
+/* ===========================
+   통계
+=========================== */
+
+
+function startOfWeek(
+  date
+) {
+
+
+  const d =
+
+    new Date(
+      date
+    );
+
+
+  d.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const day =
+    d.getDay();
+
+
+  d.setDate(
+
+    d.getDate()
+
+    +
+
+    (
+
+      day === 0
+
+      ?
+
+      -6
+
+      :
+
+      1 - day
+
+    )
+
+  );
+
+
+  return d;
+
+
+}
+
+
+
+function secondsBetween(
+  start,
+  end,
+  subject = null
+) {
+
+
+  return data.sessions
+
+
+    .filter(
+
+      s => {
+
+
+        const d =
+
+          new Date(
+            s.endedAt
+          );
+
+
+        return (
+
+          d >= start
+
+          &&
+
+          d < end
+
+          &&
+
+          (
+
+            !subject
+
+            ||
+
+            s.subject === subject
+
+          )
+
+        );
+
+
+      }
+
+    )
+
+
+    .reduce(
+
+      (
+
+        total,
+
+        s
+
+      ) =>
+
+        total
+        +
+        Number(
+          s.seconds || 0
+        ),
+
+      0
+
+    );
+
+
+}
+
+
+
+function readableTime(
+  sec
+) {
+
+
+  sec =
+    Math.floor(
+      sec
+    );
+
+
+  const h =
+
+    Math.floor(
+      sec / 3600
+    );
+
+
+  const m =
+
+    Math.floor(
+
+      (
+
+        sec % 3600
+
+      )
+
+      /
+
+      60
+
+    );
+
+
+  if (
+    h === 0
+  ) {
+
+
+    return m + "분";
+
+
+  }
+
+
+  return (
+
+    h
+
+    +
+
+    "시간 "
+
+    +
+
+    m
+
+    +
+
+    "분"
+
+  );
+
+
+}
+
+
+
+function renderStats() {
+
+
+  const now =
+    new Date();
+
+
+  const today =
+    new Date(
+      now
+    );
+
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const tomorrow =
+
+    new Date(
+      today
+    );
+
+
+  tomorrow.setDate(
+
+    tomorrow.getDate()
+
+    +
+
+    1
+
+  );
+
+
+  const weekStart =
+
+    startOfWeek(
+      now
+    );
+
+
+  const nextWeek =
+
+    new Date(
+      weekStart
+    );
+
+
+  nextWeek.setDate(
+
+    nextWeek.getDate()
+
+    +
+
+    7
+
+  );
+
+
+  const lastWeek =
+
+    new Date(
+      weekStart
+    );
+
+
+  lastWeek.setDate(
+
+    lastWeek.getDate()
+
+    -
+
+    7
+
+  );
+
+
+  const todayTotal =
+
+    secondsBetween(
+
+      today,
+
+      tomorrow
+
+    );
+
+
+  const weekTotal =
+
+    secondsBetween(
+
+      weekStart,
+
+      nextWeek
+
+    );
+
+
+  const lastWeekTotal =
+
+    secondsBetween(
+
+      lastWeek,
+
+      weekStart
+
+    );
+
+
+  document
+    .getElementById(
+      "todayTotal"
+    )
+    .innerText =
+
+      readableTime(
+        todayTotal
+      );
+
+
+  document
+    .getElementById(
+      "weekTotal"
+    )
+    .innerText =
+
+      readableTime(
+        weekTotal
+      );
+
+
+  document
+    .getElementById(
+      "lastWeekTotal"
+    )
+    .innerText =
+
+      readableTime(
+        lastWeekTotal
+      );
+
+
+  const message =
+
+    document.getElementById(
+      "weeklyMessage"
+    );
+
+
+  if (
+
+    weekTotal === 0
+
+    &&
+
+    lastWeekTotal === 0
+
+  ) {
+
+
+    message.innerText =
+
+      "📚 아직 공부 기록이 없어. 첫 공부 타이머를 시작해서 이번 주 기록을 만들어보자.";
+
+
+  }
+
+
+  else if (
+
+    weekTotal
+    >
+    lastWeekTotal
+
+  ) {
+
+
+    message.innerText =
+
+      "🔥 지난주보다 "
+
+      +
+
+      readableTime(
+
+        weekTotal
+        -
+        lastWeekTotal
+
+      )
+
+      +
+
+      " 더 공부했어. 잘하고 있다. 하지만 여기서 만족하지 말고 오늘의 목표까지 완성하자.";
+
+
+  }
+
+
+  else if (
+
+    weekTotal
+    <
+    lastWeekTotal
+
+  ) {
+
+
+    message.innerText =
+
+      "📈 지난주보다 아직 "
+
+      +
+
+      readableTime(
+
+        lastWeekTotal
+        -
+        weekTotal
+
+      )
+
+      +
+
+      " 부족해. 이번 주는 아직 끝나지 않았다. 지금부터 다시 채워가자.";
+
+
+  }
+
+
+  else {
+
+
+    message.innerText =
+
+      "⚡ 지난주와 같은 공부시간이야. 조금만 더 하면 지난주의 기록을 넘어설 수 있어.";
+
+
+  }
+
+
+  const stats =
+
+    document.getElementById(
+      "subjectStats"
+    );
+
+
+  stats.innerHTML = "";
+
+
+  const elapsedDays =
+
+    Math.max(
+
+      1,
+
+      Math.floor(
+
+        (
+
+          today
+          -
+          weekStart
+
+        )
+
+        /
+
+        86400000
+
+      )
+
+      +
+
+      1
+
+    );
+
+
+  data.subjects
+    .forEach(
+
+      subject => {
+
+
+        const todayTime =
+
+          secondsBetween(
+
+            today,
+
+            tomorrow,
+
+            subject
+
+          );
+
+
+        const weekTime =
+
+          secondsBetween(
+
+            weekStart,
+
+            nextWeek,
+
+            subject
+
+          );
+
+
+        const avg =
+
+          weekTime
+
+          /
+
+          elapsedDays;
+
+
+        const div =
+
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "subjectStat";
+
+
+        div.innerHTML = `
+
+
+          <div class="subjectStatName">
+
+            ${escapeHtml(subject)}
+
+          </div>
+
+
+          <div class="subjectStatInfo">
+
+
+            오늘
+
+            <b>
+              ${readableTime(todayTime)}
+            </b>
+
+
+            · 이번 주
+
+            <b>
+              ${readableTime(weekTime)}
+            </b>
+
+
+            · 하루 평균
+
+            <b>
+              ${readableTime(avg)}
+            </b>
+
+
+          </div>
+
+
+        `;
+
+
+        stats.appendChild(
+          div
+        );
+
+
+      }
+
+    );
+
+
+}
+
+
+
+/* ===========================
+   D-Day
+=========================== */
+
+
+function getDday(
+  date
+) {
+
+
+  const today =
+
+    new Date();
+
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const target =
+
+    new Date(
+
+      date
+
+      +
+
+      "T00:00:00"
+
+    );
+
+
+  return Math.ceil(
+
+    (
+
+      target
+      -
+      today
+
+    )
+
+    /
+
+    86400000
+
+  );
+
+
+}
+
+
+
+function ddayText(
+  days
+) {
+
+
+  if (
+    days === 0
+  ) {
+
+
+    return "D-DAY";
+
+
+  }
+
+
+  if (
+    days > 0
+  ) {
+
+
+    return "D-" + days;
+
+
+  }
+
+
+  return (
+
+    "D+"
+
+    +
+
+    Math.abs(
+      days
+    )
+
+  );
+
+
+}
+
+
+
+/* ===========================
+   메인 시험
+=========================== */
+
+
+function saveMainExam() {
+
+
+  const name =
+
+    document.getElementById(
+      "mainNameInput"
+    ).value.trim();
+
+
+  const date =
+
+    document.getElementById(
+      "mainDateInput"
+    ).value;
+
+
+  const scope =
+
+    document.getElementById(
+      "mainScopeInput"
+    ).value.trim();
+
+
+  if (
+
+    !name
+
+    ||
+
+    !date
+
+  ) {
+
+
+    alert(
+      "시험 이름과 날짜를 입력해줘."
+    );
+
+
+    return;
+
+
+  }
+
+
+  data.mainExam = {
+
+
+    name,
+
+    date,
+
+    scope
+
+
+  };
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+/* ===========================
+   시험 추가
+=========================== */
+
+
+function addExam() {
+
+
+  const name =
+
+    document.getElementById(
+      "examName"
+    ).value.trim();
+
+
+  const date =
+
+    document.getElementById(
+      "examDate"
+    ).value;
+
+
+  const scope =
+
+    document.getElementById(
+      "examScope"
+    ).value.trim();
+
+
+  if (
+
+    !name
+
+    ||
+
+    !date
+
+  ) {
+
+
+    alert(
+      "시험 이름과 날짜를 입력해줘."
+    );
+
+
+    return;
+
+
+  }
+
+
+  data.exams.push(
+
+
+    {
+
+      id:
+        Date.now(),
+
+      name,
+
+      date,
+
+      scope
+
+    }
+
+
+  );
+
+
+  document
+    .getElementById(
+      "examName"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "examDate"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "examScope"
+    )
+    .value = "";
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+function deleteExam(
+  id
+) {
+
+
+  data.exams =
+
+    data.exams
+      .filter(
+
+        e =>
+          e.id !== id
+
+      );
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+function setAsMain(
+  id
+) {
+
+
+  const exam =
+
+    data.exams
+      .find(
+
+        e =>
+          e.id === id
+
+      );
+
+
+  if (!exam) {
+
+    return;
+
+  }
+
+
+  data.mainExam = {
+
+
+    name:
+      exam.name,
+
+
+    date:
+      exam.date,
+
+
+    scope:
+      exam.scope
+
+
+  };
+
+
+  saveData();
+
+
+  render();
+
+
+}
+
+
+
+function renderExams() {
+
+
+  const mainName =
+
+    document.getElementById(
+      "mainExamName"
+    );
+
+
+  const mainDday =
+
+    document.getElementById(
+      "mainDday"
+    );
+
+
+  const mainDate =
+
+    document.getElementById(
+      "mainDate"
+    );
+
+
+  if (
+    data.mainExam
+  ) {
+
+
+    mainName.innerText =
+
+      data.mainExam.name;
+
+
+    mainDday.innerText =
+
+      ddayText(
+
+        getDday(
+          data.mainExam.date
+        )
+
+      );
+
+
+    mainDate.innerText =
+
+      data.mainExam.date;
+
+
+    document
+      .getElementById(
+        "mainNameInput"
+      )
+      .value =
+
+        data.mainExam.name;
+
+
+    document
+      .getElementById(
+        "mainDateInput"
+      )
+      .value =
+
+        data.mainExam.date;
+
+
+    document
+      .getElementById(
+        "mainScopeInput"
+      )
+      .value =
+
+        data.mainExam.scope
+        ||
+        "";
+
+
+  }
+
+
+  else {
+
+
+    mainName.innerText =
+      "메인 시험";
+
+
+    mainDday.innerText =
+      "날짜 설정 필요";
+
+
+    mainDate.innerText =
+      "";
+
+
+  }
+
+
+  const list =
+
+    document.getElementById(
+      "examList"
+    );
+
+
+  list.innerHTML = "";
+
+
+  data.exams
+    .slice()
+    .sort(
+
+      (
+
+        a,
+        b
+
+      ) =>
+
+        new Date(
+          a.date
+        )
+
+        -
+
+        new Date(
+          b.date
+        )
+
+    )
+    .forEach(
+
+      exam => {
+
+
+        const div =
+
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "exam";
+
+
+        div.innerHTML = `
+
+
+          <div class="examTitle">
+
+            ${escapeHtml(exam.name)}
+
+          </div>
+
+
+          <div class="examDday">
+
+            ${ddayText(getDday(exam.date))}
+
+          </div>
+
+
+          <div class="sub">
+
+            ${escapeHtml(exam.date)}
+
+            ·
+
+            ${escapeHtml(exam.scope || "")}
+
+          </div>
+
+
+          <div class="buttonRow">
+
+
+            <button
+
+              class="secondary"
+
+              onclick="
+                setAsMain(
+                  ${exam.id}
+                )
+              "
+
+            >
+
+              메인으로
+
+            </button>
+
+
+            <button
+
+              class="danger"
+
+              onclick="
+                deleteExam(
+                  ${exam.id}
+                )
+              "
+
+            >
+
+              삭제
+
+            </button>
+
+
+          </div>
+
+
+        `;
+
+
+        list.appendChild(
+          div
+        );
+
+
+      }
+
+    );
+
+
+}
+
+
+
+/* ===========================
+   HTML 안전 처리
+=========================== */
+
+
+function escapeHtml(
+  text
+) {
+
+
+  const div =
+
+    document.createElement(
+      "div"
+    );
+
+
+  div.innerText =
+
+    text || "";
+
+
+  return div.innerHTML;
+
+
+}
+
+
+
+/* ===========================
+   전체 화면
+=========================== */
+
+
+function render() {
+
+
+  showToday();
+
+
+  showDailyQuote();
+
+
+  renderGoals();
+
+
+  renderSubjects();
+
+
+  renderTimer();
+
+
+  renderStats();
+
+
+  renderExams();
+
+
+}
+
+
+
+/* ===========================
+   타이머 실시간 표시
+=========================== */
+
+
+setInterval(
+
+  function() {
+
+
+    renderTimer();
+
+
+  },
+
+  500
+
+);
+
+
+
+/* 시작 */
+
+
+loadData();
+
+
+</script>
+
+
+</body>
+
+</html>
